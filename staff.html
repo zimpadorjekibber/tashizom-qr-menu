@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tashizom - Staff Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .logout-btn {
+            background-color: #cbd5e0;
+            color: #2d3748;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .logout-btn:hover {
+            background-color: #a0aec0;
+        }
+
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .order-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #ff4757;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .table-badge {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-header">
+        <h1>Staff Dashboard</h1>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="orders-grid">
+        <!-- Placeholder Order -->
+        <div class="order-card">
+            <div class="order-header">
+                <span class="table-badge">Table 5</span>
+                <span style="color: #718096; font-size: 0.9rem;">Just now</span>
+            </div>
+            <div class="order-items">
+                <p><strong>2x</strong> Crispy Calamari</p>
+                <p><strong>1x</strong> Coke</p>
+            </div>
+            <div style="margin-top: 1rem; text-align: right;">
+                <button
+                    style="background: #48bb78; color: white; border: none; padding: 0.5rem; border-radius: 0.25rem; cursor: pointer;">Complete</button>
+            </div>
+        </div>
+
+        <div class="order-card">
+            <div class="order-header">
+                <span class="table-badge">Table 2</span>
+                <span style="color: #718096; font-size: 0.9rem;">5 mins ago</span>
+            </div>
+            <div class="order-items">
+                <p><strong>1x</strong> Burger</p>
+                <p><strong>1x</strong> Fries</p>
+            </div>
+            <div style="margin-top: 1rem; text-align: right;">
+                <button
+                    style="background: #48bb78; color: white; border: none; padding: 0.5rem; border-radius: 0.25rem; cursor: pointer;">Complete</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple auth check
+        if (sessionStorage.getItem('userRole') !== 'staff' && sessionStorage.getItem('userRole') !== 'admin') {
+            window.location.href = 'login.html';
+        }
+
+        function logout() {
+            sessionStorage.removeItem('userRole');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>

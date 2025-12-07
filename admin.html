@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tashizom Admin - QR Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .admin-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .admin-header h1 {
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-group {
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .generate-btn {
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .generate-btn:hover {
+            background-color: #ff6b81;
+        }
+
+        #qr-result {
+            margin-top: 2rem;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        #qr-code {
+            padding: 1rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+        }
+
+        .print-btn {
+            background-color: #2f3542;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 1.5rem;
+            color: #718096;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            color: #2d3748;
+        }
+    </style>
+    <!-- QRCode.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>Table QR Generator</h1>
+            <p>Generate QR codes for restaurant tables</p>
+        </div>
+
+        <div class="input-group">
+            <label for="table-number">Table Name / Number</label>
+            <input type="text" id="table-number" placeholder="e.g. Table 5 or VIP Area">
+        </div>
+
+        <button class="generate-btn" onclick="generateQR()">Generate Code</button>
+
+        <div id="qr-result">
+            <h3>Table <span id="display-table-num"></span></h3>
+            <div id="qr-code"></div>
+            <button class="print-btn" onclick="window.print()"><i class="fa-solid fa-print"></i> Print QR</button>
+        </div>
+
+        <a href="index.html" class="back-link">Back to Menu</a>
+        <button onclick="logout()"
+            style="margin-top: 1rem; background: none; border: none; color: #e53e3e; cursor: pointer; text-decoration: underline;">Logout</button>
+    </div>
+
+    <script src="admin.script.js"></script>
+    <script>
+        // Simple auth check
+        if (sessionStorage.getItem('userRole') !== 'admin') {
+            window.location.href = 'login.html';
+        }
+
+        function logout() {
+            sessionStorage.removeItem('userRole');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>

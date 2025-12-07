@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tashizom - Multi-Cuisine Restaurant</title>
+    <meta name="description" content="Order delicious food from Tashizom Multi-Cuisine Restaurant. Scan, Browse, and Eat!">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header / Hero -->
+        <header class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <div class="logo-container">
+                    <img src="assets/tashizom_logo.png" alt="Tashizom Logo" class="restaurant-logo">
+                </div>
+                <h1>Tashizom</h1>
+                <p class="tagline">Where Tradition Meets Taste</p>
+                <div class="info-badges">
+                    <span class="badge"><i class="fa-solid fa-clock"></i> Open 10am - 11pm</span>
+                    <span class="badge"><i class="fa-solid fa-star"></i> 4.8 (500+)</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Our Story & Speciality Section -->
+        <section class="story-section">
+            <h2 class="section-title">Our Story</h2>
+            <p class="story-text">
+                Established in 2024, Tashizom brings you an authentic fusion of Himalayan flavors and modern culinary art. 
+                Our chefs, with over 20 years of experience, craft every dish with love and the freshest ingredients.
+            </p>
+            
+            <div class="speciality-cards">
+                <div class="speciality-card">
+                    <i class="fa-solid fa-fire-burner"></i>
+                    <h3>Master Chefs</h3>
+                    <p>Expertly curated recipes</p>
+                </div>
+                <div class="speciality-card">
+                    <i class="fa-solid fa-seedling"></i>
+                    <h3>Fresh Ingredients</h3>
+                    <p>Farm-to-table goodness</p>
+                </div>
+                <div class="speciality-card">
+                    <i class="fa-solid fa-award"></i>
+                    <h3>Award Winning</h3>
+                    <p>Best Multi-Cuisine in Town</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Info -->
+        <section class="contact-section">
+            <div class="contact-card">
+                <i class="fa-solid fa-location-dot"></i>
+                <div>
+                    <h4>Visit Us</h4>
+                    <p>123 Mountain View Road, McLeod Ganj</p>
+                </div>
+            </div>
+            <div class="contact-card">
+                <i class="fa-solid fa-phone"></i>
+                <div>
+                    <h4>Call Us</h4>
+                    <p>+91 98765 43210</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search & Filter -->
+        <div class="search-container sticky-top">
+            <div class="search-bar">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search for dishes...">
+            </div>
+        </div>
+
+        <!-- Categories Navigation -->
+        <nav class="categories-nav">
+            <ul class="categories-list">
+                <li class="category-item active" data-category="all">All</li>
+                <li class="category-item" data-category="starters">Starters</li>
+                <li class="category-item" data-category="main-course">Main Course</li>
+                <li class="category-item" data-category="beverages">Beverages</li>
+                <li class="category-item" data-category="desserts">Desserts</li>
+            </ul>
+        </nav>
+
+        <!-- Menu Grid -->
+        <main class="menu-container">
+            <h2 class="section-title">Popular Items</h2>
+            <div class="menu-grid" id="menu-grid">
+                <!-- Items will be injected here by JS -->
+            </div>
+        </main>
+
+        <!-- Floating Cart Button -->
+        <div class="floating-cart">
+            <button class="cart-btn">
+                <div class="cart-info">
+                    <span class="item-count">0 Items</span>
+                    <span class="dot">•</span>
+                    <span class="total-price">$0.00</span>
+                </div>
+                <span class="view-cart-text">View Cart <i class="fa-solid fa-chevron-right"></i></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Item Detail Modal -->
+    <div class="modal-overlay" id="item-modal">
+        <div class="modal-content">
+            <button class="close-modal"><i class="fa-solid fa-times"></i></button>
+            <div class="modal-image-container">
+                <img src="" alt="Food Item" class="modal-img" id="modal-img">
+            </div>
+            <div class="modal-body">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="modal-title">Dish Name</h3>
+                    <span class="modal-price" id="modal-price">$0.00</span>
+                </div>
+                <p class="modal-desc" id="modal-desc">Description of the delicious food item goes here.</p>
+                
+                <div class="modal-options">
+                    <h4>Spice Level</h4>
+                    <div class="option-group">
+                        <label class="radio-option">
+                            <input type="radio" name="spice" value="mild" checked>
+                            <span class="radio-custom">Mild</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="spice" value="medium">
+                            <span class="radio-custom">Medium</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="spice" value="hot">
+                            <span class="radio-custom">Hot</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="quantity-control">
+                        <button class="qty-btn minus"><i class="fa-solid fa-minus"></i></button>
+                        <span class="qty-val">1</span>
+                        <button class="qty-btn plus"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <button class="add-to-cart-btn">Add to Cart - <span id="modal-total-price">$0.00</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal-overlay" id="cart-modal">
+        <div class="modal-content cart-modal-content">
+            <button class="close-modal close-cart"><i class="fa-solid fa-times"></i></button>
+            <div class="modal-header cart-header">
+                <h3 class="modal-title">Your Order</h3>
+                <button class="clear-cart-btn">Clear</button>
+            </div>
+            
+            <div class="cart-items-container" id="cart-items">
+                <!-- Cart items injected here -->
+                <div class="empty-cart-msg">
+                    <i class="fa-solid fa-basket-shopping"></i>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+
+            <div class="cart-footer">
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="cart-subtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="cart-final-total">$0.00</span>
+                    </div>
+                </div>
+                <button class="checkout-btn">Place Order via WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
