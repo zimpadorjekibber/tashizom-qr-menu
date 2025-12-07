@@ -12,10 +12,9 @@ function generateQR() {
     // Clear previous QR code
     qrContainer.innerHTML = '';
 
-    // Base URL - currently points to the index.html in the same directory
-    // In production, this would be the actual domain
-    const baseUrl = window.location.href.replace('admin.html', 'index.html');
-    const finalUrl = `${baseUrl}?table=${tableNum}`;
+    // Base URL - pointing to the live Firebase hosted app
+    const baseUrl = "https://dineflow-fndvc.web.app/index.html";
+    const finalUrl = `${baseUrl}?table=${encodeURIComponent(tableNum)}`;
 
     // Generate QR Code
     new QRCode(qrContainer, {

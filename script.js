@@ -1,54 +1,10 @@
 // Mock Data
-const menuItems = [
-    {
-        id: 1,
-        name: "Truffle Mushroom Pasta",
-        description: "Creamy fettuccine with black truffle oil, parmesan, and wild mushrooms.",
-        price: 18.00,
-        category: "main-course",
-        image: "assets/pasta_dish.png"
-    },
-    {
-        id: 2,
-        name: "Signature Beef Burger",
-        description: "Wagyu beef patty, aged cheddar, caramelized onions, and secret sauce on brioche.",
-        price: 16.50,
-        category: "main-course",
-        image: "assets/delicious_burger.png"
-    },
-    {
-        id: 3,
-        name: "Premium Sushi Platter",
-        description: "Chef's selection of fresh nigiri, sashimi, and signature rolls.",
-        price: 32.00,
-        category: "main-course",
-        image: "assets/sushi_platter.png"
-    },
-    {
-        id: 4,
-        name: "Crispy Calamari",
-        description: "Golden fried calamari rings served with lemon aioli and spicy marinara.",
-        price: 12.00,
-        category: "starters",
-        image: "https://images.unsplash.com/photo-1604909052743-94e838986d24?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    },
-    {
-        id: 5,
-        name: "Mango Sticky Rice",
-        description: "Sweet coconut sticky rice served with fresh ripe mango and sesame seeds.",
-        price: 9.00,
-        category: "desserts",
-        image: "https://images.unsplash.com/photo-1548811264-c3fd9b92512b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    },
-    {
-        id: 6,
-        name: "Thai Iced Tea",
-        description: "Classic Thai tea with condensed milk and ice.",
-        price: 5.00,
-        category: "beverages",
-        image: "https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    }
-];
+import { db } from './firebase-config.js';
+import { collection, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// State
+let menuItems = []; // Will be populated from Firestore
+// ];
 
 // State
 let cart = [];
@@ -84,9 +40,50 @@ let currentModalItem = null;
 let currentQty = 1;
 
 // Initialize
-function init() {
-    renderMenu();
+async function init() {
+    await fetchMenu();
     setupEventListeners();
+    checkTableStatus();
+}
+
+let tableId = null;
+
+function checkTableStatus() {
+    const urlParams = new URLSearchParams(window.location.search);
+    tableId = urlParams.get('table');
+
+    if (!tableId) {
+        // Show View Only Warning
+        const warning = document.createElement('div');
+        warning.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; background: #c53030; color: white; text-align: center; padding: 0.5rem; z-index: 2000; font-weight: bold;';
+        warning.innerHTML = '<i class="fa-solid fa-lock"></i> View Only Mode - Scan a Table QR Code to Order';
+        document.body.appendChild(warning);
+        document.querySelector('.app-container').style.marginTop = '30px';
+    }
+}
+
+// Fetch Menu from Firestore
+async function fetchMenu() {
+    try {
+        const querySnapshot = await getDocs(collection(db, "menuItems"));
+        menuItems = [];
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            console.log("Fetched Item:", doc.id, data);
+            menuItems.push({ id: doc.id, ...data });
+        });
+        console.log("Total Items Fetched:", menuItems.length);
+
+        if (menuItems.length === 0) {
+            console.log("No menu items found in 'menuItems' collection.");
+            // Optional: Fallback to mock data if needed, or leave empty.
+        }
+
+        renderMenu();
+    } catch (error) {
+        console.error("Error fetching menu:", error);
+        alert("Failed to load menu. Please check your internet connection.");
+    }
 }
 
 // Render Menu
@@ -103,7 +100,13 @@ function renderMenu(items = null) {
     filteredItems.forEach(item => {
         const card = document.createElement('div');
         card.className = 'menu-item-card';
-        card.onclick = () => openModal(item);
+        card.onclick = () => {
+            if (!tableId) {
+                alert('Please scan a QR code on your table to place an order.');
+                return;
+            }
+            openModal(item);
+        };
 
         card.innerHTML = `
             <img src="${item.image}" alt="${item.name}" class="item-img">
@@ -115,8 +118,8 @@ function renderMenu(items = null) {
                     <p class="item-desc">${item.description}</p>
                 </div>
                 <div class="item-footer">
-                    <span class="item-price">$${item.price.toFixed(2)}</span>
-                    <button class="add-btn-sm"><i class="fa-solid fa-plus"></i></button>
+                    <span class="item-price">₹${item.price.toFixed(2)}</span>
+                    <button class="add-btn-sm" ${!tableId ? 'style="opacity: 0.5; cursor: not-allowed;"' : ''}><i class="fa-solid fa-plus"></i></button>
                 </div>
             </div>
         `;
@@ -192,7 +195,7 @@ function openModal(item) {
 
     modalImg.src = item.image;
     modalTitle.textContent = item.name;
-    modalPrice.textContent = `$${item.price.toFixed(2)}`;
+    modalPrice.textContent = `₹${item.price.toFixed(2)}`;
     modalDesc.textContent = item.description;
 
     updateModalPrice();
@@ -209,7 +212,7 @@ function closeModal() {
 function updateModalPrice() {
     qtyVal.textContent = currentQty;
     const total = currentModalItem.price * currentQty;
-    modalTotalPrice.textContent = `$${total.toFixed(2)}`;
+    modalTotalPrice.textContent = `₹${total.toFixed(2)}`;
 }
 
 // Cart Functions
@@ -234,7 +237,7 @@ function updateCartUI() {
     const totalCost = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
     cartItemCount.textContent = `${totalItems} Item${totalItems !== 1 ? 's' : ''}`;
-    cartTotalPrice.textContent = `$${totalCost.toFixed(2)}`;
+    cartTotalPrice.textContent = `₹${totalCost.toFixed(2)}`;
 }
 
 // Cart Modal Functions
@@ -259,8 +262,8 @@ function renderCartItems() {
                 <p>Your cart is empty</p>
             </div>
         `;
-        cartSubtotal.textContent = '$0.00';
-        cartFinalTotal.textContent = '$0.00';
+        cartSubtotal.textContent = '₹0.00';
+        cartFinalTotal.textContent = '₹0.00';
         return;
     }
 
@@ -277,7 +280,7 @@ function renderCartItems() {
             <div class="cart-item-details">
                 <div class="item-header">
                     <h4 class="cart-item-title">${item.name}</h4>
-                    <span class="cart-item-price">$${itemTotal.toFixed(2)}</span>
+                    <span class="cart-item-price">₹${itemTotal.toFixed(2)}</span>
                 </div>
                 <div class="cart-item-controls">
                     <div class="cart-qty-control">
@@ -291,8 +294,8 @@ function renderCartItems() {
         cartItemsContainer.appendChild(cartItem);
     });
 
-    cartSubtotal.textContent = `$${total.toFixed(2)}`;
-    cartFinalTotal.textContent = `$${total.toFixed(2)}`;
+    cartSubtotal.textContent = `₹${total.toFixed(2)}`;
+    cartFinalTotal.textContent = `₹${total.toFixed(2)}`;
 }
 
 function updateCartItem(id, change) {
@@ -315,9 +318,18 @@ function clearCart() {
     }
 }
 
-function checkout() {
+async function checkout() {
     if (cart.length === 0) {
         alert('Your cart is empty!');
+        return;
+    }
+
+    // Get Customer Details
+    const customerName = document.getElementById('customer-name').value.trim();
+    const customerPhone = document.getElementById('customer-phone').value.trim();
+
+    if (!customerName || !customerPhone) {
+        alert('Please enter your Name and Phone Number to place the order.');
         return;
     }
 
@@ -325,18 +337,37 @@ function checkout() {
     const urlParams = new URLSearchParams(window.location.search);
     const tableInfo = urlParams.get('table') || 'Unknown Table';
 
-    // Simulate Checkout
+    // Calculate Total
     const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-    const message = `New Order from ${tableInfo}:\n${cart.map(i => `${i.qty}x ${i.name}`).join('\n')}\n\nTotal: $${total.toFixed(2)}`;
 
-    // In a real app, this would redirect to WhatsApp
-    // window.open(`https://wa.me/1234567890?text=${encodeURIComponent(message)}`, '_blank');
+    const orderData = {
+        table: tableInfo,
+        customerName: customerName,
+        customerPhone: customerPhone,
+        items: cart,
+        totalAmount: total,
+        status: 'pending',
+        timestamp: serverTimestamp(),
+        createdAt: new Date().toISOString()
+    };
 
-    alert('Order Placed Successfully!\n\n' + message);
-    cart = [];
-    updateCartUI();
-    closeCart();
+    try {
+        const docRef = await addDoc(collection(db, "orders"), orderData);
+        console.log("Order placed with ID: ", docRef.id);
+
+        alert(`Order Placed Successfully!\nOrder ID: ${docRef.id}\n\nWe will start preparing your food shortly.`);
+
+        cart = [];
+        updateCartUI();
+        closeCart();
+    } catch (e) {
+        console.error("Error adding document: ", e);
+        alert("Failed to place order. Please try again.\nError: " + e.message);
+    }
 }
+
+// Expose global functions for inline HTML handlers
+window.updateCartItem = updateCartItem;
 
 // Start
 init();

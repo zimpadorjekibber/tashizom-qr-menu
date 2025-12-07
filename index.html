@@ -112,7 +112,7 @@
                 <div class="cart-info">
                     <span class="item-count">0 Items</span>
                     <span class="dot">•</span>
-                    <span class="total-price">$0.00</span>
+                    <span class="total-price">₹0.00</span>
                 </div>
                 <span class="view-cart-text">View Cart <i class="fa-solid fa-chevron-right"></i></span>
             </button>
@@ -129,7 +129,7 @@
             <div class="modal-body">
                 <div class="modal-header">
                     <h3 class="modal-title" id="modal-title">Dish Name</h3>
-                    <span class="modal-price" id="modal-price">$0.00</span>
+                    <span class="modal-price" id="modal-price">₹0.00</span>
                 </div>
                 <p class="modal-desc" id="modal-desc">Description of the delicious food item goes here.</p>
 
@@ -180,15 +180,26 @@
                 </div>
             </div>
 
+            <div class="cart-customer-details"
+                style="padding: 1rem; background: #f8f9fa; margin-top: auto; border-top: 1px solid #e2e8f0;">
+                <h4 style="margin-bottom: 0.5rem; color: #2d3748;">Your Details</h4>
+                <div style="display: flex; gap: 0.5rem; flex-direction: column;">
+                    <input type="text" id="customer-name" placeholder="Your Name"
+                        style="padding: 0.5rem; border: 1px solid #cbd5e0; border-radius: 0.25rem;">
+                    <input type="tel" id="customer-phone" placeholder="Phone Number"
+                        style="padding: 0.5rem; border: 1px solid #cbd5e0; border-radius: 0.25rem;">
+                </div>
+            </div>
+
             <div class="cart-footer">
                 <div class="cart-summary">
                     <div class="summary-row">
                         <span>Subtotal</span>
-                        <span id="cart-subtotal">$0.00</span>
+                        <span id="cart-subtotal">₹0.00</span>
                     </div>
                     <div class="summary-row total">
                         <span>Total</span>
-                        <span id="cart-final-total">$0.00</span>
+                        <span id="cart-final-total">₹0.00</span>
                     </div>
                 </div>
                 <button class="checkout-btn">Place Order via WhatsApp</button>
@@ -196,7 +207,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>
