@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tashizom - Multi-Cuisine Restaurant</title>
-    <meta name="description" content="Order delicious food from Tashizom Multi-Cuisine Restaurant. Scan, Browse, and Eat!">
+    <meta name="description"
+        content="Order delicious food from Tashizom Multi-Cuisine Restaurant. Scan, Browse, and Eat!">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Header / Hero -->
         <header class="hero-section">
-            <div class="hero-overlay"></div>
+            <div class="hero-slide summer"></div>
+            <div class="hero-slide winter"></div>
             <div class="hero-content">
                 <div class="logo-container">
                     <img src="assets/tashizom_logo.png" alt="Tashizom Logo" class="restaurant-logo">
@@ -33,10 +37,11 @@
         <section class="story-section">
             <h2 class="section-title">Our Story</h2>
             <p class="story-text">
-                Established in 2024, Tashizom brings you an authentic fusion of Himalayan flavors and modern culinary art. 
+                Established in 2024, Tashizom brings you an authentic fusion of Himalayan flavors and modern culinary
+                art.
                 Our chefs, with over 20 years of experience, craft every dish with love and the freshest ingredients.
             </p>
-            
+
             <div class="speciality-cards">
                 <div class="speciality-card">
                     <i class="fa-solid fa-fire-burner"></i>
@@ -127,7 +132,7 @@
                     <span class="modal-price" id="modal-price">$0.00</span>
                 </div>
                 <p class="modal-desc" id="modal-desc">Description of the delicious food item goes here.</p>
-                
+
                 <div class="modal-options">
                     <h4>Spice Level</h4>
                     <div class="option-group">
@@ -166,7 +171,7 @@
                 <h3 class="modal-title">Your Order</h3>
                 <button class="clear-cart-btn">Clear</button>
             </div>
-            
+
             <div class="cart-items-container" id="cart-items">
                 <!-- Cart items injected here -->
                 <div class="empty-cart-msg">
@@ -193,4 +198,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
