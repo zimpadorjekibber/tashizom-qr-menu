@@ -98,9 +98,13 @@ function renderMenu(items = null) {
     }
 
     filteredItems.forEach(item => {
+        const isAvailable = item.available !== false; // Default true if field missing
+
         const card = document.createElement('div');
-        card.className = 'menu-item-card';
+        card.className = `menu-item-card ${!isAvailable ? 'sold-out' : ''}`;
+
         card.onclick = () => {
+            if (!isAvailable) return;
             if (!tableId) {
                 alert('Please scan a QR code on your table to place an order.');
                 return;
@@ -108,8 +112,12 @@ function renderMenu(items = null) {
             openModal(item);
         };
 
+        const btnHtml = isAvailable
+            ? `<button class="add-btn-sm" ${!tableId ? 'style="opacity: 0.5; cursor: not-allowed;"' : ''}><i class="fa-solid fa-plus"></i></button>`
+            : `<button class="add-btn-sm" style="background:#95a5a6; width:auto; padding:0 10px; font-size:0.8rem;" disabled>Sold Out</button>`;
+
         card.innerHTML = `
-            <img src="${item.image}" alt="${item.name}" class="item-img">
+            <img src="${item.image}" alt="${item.name}" class="item-img" style="${!isAvailable ? 'filter:grayscale(100%);' : ''}">
             <div class="item-details">
                 <div>
                     <div class="item-header">
@@ -119,7 +127,7 @@ function renderMenu(items = null) {
                 </div>
                 <div class="item-footer">
                     <span class="item-price">₹${item.price.toFixed(2)}</span>
-                    <button class="add-btn-sm" ${!tableId ? 'style="opacity: 0.5; cursor: not-allowed;"' : ''}><i class="fa-solid fa-plus"></i></button>
+                    ${btnHtml}
                 </div>
             </div>
         `;
