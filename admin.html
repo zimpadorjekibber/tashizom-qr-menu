@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Tashizom</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=4">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
@@ -17,6 +17,8 @@
         <div class="sidebar-logo"><i class="fa-solid fa-utensils"></i> Tashizom Admin</div>
         <div class="nav-item active" id="nav-btn-menu" onclick="showSection('menu')"><i class="fa-solid fa-burger"></i>
             Menu</div>
+        <div class="nav-item" id="nav-btn-orders" onclick="showSection('orders')"><i class="fa-solid fa-list-check"></i>
+            Orders</div>
         <div class="nav-item" id="nav-btn-qr" onclick="showSection('qr')"><i class="fa-solid fa-qrcode"></i> QR Codes
         </div>
         <div class="nav-item" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</div>
@@ -29,7 +31,7 @@
         <div id="section-menu">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
                 <h1>Menu Management</h1>
-                <button class="btn btn-primary" onclick="openAddModal()">+ Add Item</button>
+                <button class="btn btn-primary" onclick="openAddModal()">+ Add New Item</button>
             </div>
 
             <div id="menu-list" style="display:grid; gap:10px;">
@@ -37,18 +39,35 @@
             </div>
         </div>
 
+        <!-- ORDERS SECTION -->
+        <div id="section-orders" style="display:none;">
+            <h1>Orders & Status</h1>
+            <div id="orders-list"
+                style="display:grid; gap:15px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+                <!-- Injected via JS -->
+                <p>Loading orders...</p>
+            </div>
+        </div>
+
         <!-- QR SECTION -->
         <div id="section-qr" style="display:none;">
             <h1>QR Code Generator</h1>
-            <div class="stat-card" style="max-width:400px;">
-                <label>Table Number</label>
-                <input id="qr-table" type="text" placeholder="e.g. 1" style="margin-bottom:10px;">
-                <button class="btn btn-primary" onclick="generateQR()">Generate</button>
+            <div class="stat-card">
+                <h3>Generate Multiple Codes</h3>
+                <div style="display:flex; gap:10px; align-items:center; margin-bottom:15px;">
+                    <input id="qr-start" type="number" placeholder="Start Table (e.g. 1)" style="flex:1">
+                    <span>to</span>
+                    <input id="qr-end" type="number" placeholder="End Table (e.g. 10)" style="flex:1">
+                </div>
+                <button class="btn btn-primary" onclick="generateQRs()">Generate QR Codes</button>
 
-                <div id="qr-output" style="margin-top:20px; text-align:center; display:none;">
-                    <div id="qr-img" style="display:inline-block; padding:10px; border:1px solid #eee;"></div>
+                <div id="qr-section-output" style="margin-top:20px; text-align:center; display:none;">
+                    <div id="qr-grid"
+                        style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center; page-break-inside: avoid;">
+                        <!-- QRs here -->
+                    </div>
                     <br><br>
-                    <button class="btn btn-secondary" onclick="window.print()">Print</button>
+                    <button class="btn btn-secondary" onclick="window.print()">Print Function</button>
                 </div>
             </div>
         </div>
@@ -85,15 +104,17 @@
     </div>
 
     <script type="module" src="firebase-config.js"></script>
-    <script type="module" src="admin.js?v=2"></script>
+    <script type="module" src="admin.js?v=4"></script>
     <script>
         function showSection(id) {
             document.getElementById('section-menu').style.display = id === 'menu' ? 'block' : 'none';
+            document.getElementById('section-orders').style.display = id === 'orders' ? 'block' : 'none';
             document.getElementById('section-qr').style.display = id === 'qr' ? 'block' : 'none';
 
             // Update Nav State
             if (document.getElementById('nav-btn-menu')) {
                 document.getElementById('nav-btn-menu').classList.toggle('active', id === 'menu');
+                document.getElementById('nav-btn-orders').classList.toggle('active', id === 'orders');
                 document.getElementById('nav-btn-qr').classList.toggle('active', id === 'qr');
             }
         }

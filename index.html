@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Tashizom</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=4">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -33,25 +33,28 @@
     </header>
 
     <!-- MAIN CONTENT -->
-    <main class="container" style="margin-top: -40px; position: relative; z-index: 20;">
+    <main class="container" style="margin-top: -60px; position: relative; z-index: 20;">
 
         <!-- Search Bar (Floating) -->
         <div
-            style="background: white; padding: 10px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-            <i class="fa-solid fa-search" style="color: #ccc; margin-left: 10px;"></i>
+            style="background: white; padding: 15px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); display: flex; align-items: center; gap: 15px; margin-bottom: 25px;">
+            <i class="fa-solid fa-search" style="color: #bbb; margin-left: 10px; font-size: 1.2rem;"></i>
             <input type="text" id="search-input" placeholder="Search for momos, thukpa..."
-                style="border: none; padding: 10px; width: 100%;">
+                style="border: none; padding: 0; font-size: 1.1rem; width: 100%; outline: none; background: transparent;">
         </div>
 
         <!-- Categories -->
-        <nav class="category-nav" id="category-wrapper" style="margin: 0 -20px 20px -20px;">
-            <!-- Injected via JS -->
-            <button class="cat-chip active" data-cat="all">All</button>
-        </nav>
+        <div class="category-sticky">
+            <nav class="category-nav" id="category-wrapper">
+                <!-- Injected via JS -->
+                <button class="cat-chip active" data-cat="all">All</button>
+            </nav>
+        </div>
 
         <!-- Menu Grid -->
-        <div id="menu-loading" style="text-align: center; padding: 40px; color: #999;">
-            <i class="fa-solid fa-circle-notch fa-spin fa-2x"></i><br>Loading Menu...
+        <div id="menu-loading" style="text-align: center; padding: 60px; color: #999;">
+            <i class="fa-solid fa-circle-notch fa-spin fa-2x"
+                style="margin-bottom:15px; color: var(--primary);"></i><br>Preparing Menu...
         </div>
 
         <div class="menu-grid" id="menu-grid">
@@ -62,15 +65,14 @@
 
     <!-- FLOATING CART BAR -->
     <div class="cart-bar" id="cart-bar" onclick="openCartModal()">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <div
-                style="background: rgba(255,255,255,0.2); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div class="cart-count-badge">
                 <span id="cart-count">0</span>
             </div>
-            <div class="cart-info">View Cart</div>
+            <div class="cart-info" style="font-weight: 500;">View Your Order</div>
         </div>
         <div class="cart-total">₹<span id="cart-total">0</span> <i class="fa-solid fa-chevron-right"
-                style="font-size: 0.8em;"></i></div>
+                style="margin-left: 5px; font-size: 0.8rem;"></i></div>
     </div>
 
     <!-- ITEM DETAIL MODAL -->
@@ -134,7 +136,7 @@
 
     <!-- SCRIPTS -->
     <script type="module" src="firebase-config.js"></script>
-    <script type="module" src="app.js"></script>
+    <script type="module" src="app.js?v=4"></script>
     <script>
         // Hero Slider
         let slideIdx = 0;

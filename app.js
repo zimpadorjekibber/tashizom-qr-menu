@@ -93,8 +93,8 @@ function renderMenu(items = menuData) {
                 <div class="card-title">${item.name}</div>
                 <div class="card-desc">${item.description || ''}</div>
                 <div class="card-footer">
-                    <div class="card-price">₹${item.price}</div>
-                    <button class="btn-icon btn-primary" style="padding: 6px; width: 32px; height: 32px; font-size:0.8rem;" ${isSoldOut ? 'disabled style="background:#ccc;"' : ''}>
+                    <div class="price-tag">₹${item.price}</div>
+                    <button class="btn-icon btn-primary" style="width: 32px; height: 32px; font-size:0.8rem;" ${isSoldOut ? 'disabled style="background:#ccc;"' : ''}>
                         <i class="fa-solid fa-plus"></i>
                     </button>
                 </div>
